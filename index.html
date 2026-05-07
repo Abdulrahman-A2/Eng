@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام الاختبارات - يعمل فوراً</title>
+  <title>نظام الاختبارات - مشاركة عبر ملف</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,9 +14,29 @@
       font-family: 'Tajawal', sans-serif;
     }
 
+    :root {
+      --bg: #f0f4f8;
+      --card: #fff;
+      --text: #2c3e50;
+      --border: #dee2e6;
+      --primary: #1a5f7a;
+      --accent: #2e7d32;
+    }
+
+    body.dark {
+      --bg: #121826;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --border: #2c3e50;
+      --primary: #5dade2;
+      --accent: #52be80;
+    }
+
     body {
-      background: #f0f4f8;
+      background: var(--bg);
+      color: var(--text);
       padding: 20px;
+      transition: 0.3s;
     }
 
     .container {
@@ -25,29 +45,29 @@
     }
 
     .card {
-      background: white;
+      background: var(--card);
       border-radius: 24px;
       padding: 24px;
       margin-bottom: 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
     }
 
     .btn {
-      padding: 8px 20px;
+      padding: 10px 20px;
       border: none;
       border-radius: 30px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 14px;
     }
 
     .btn-primary {
-      background: #1a5f7a;
+      background: var(--primary);
       color: white;
     }
 
     .btn-success {
-      background: #2e7d32;
+      background: var(--accent);
       color: white;
     }
 
@@ -62,97 +82,101 @@
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
 
     input,
-    textarea {
+    select {
       width: 100%;
       padding: 10px;
       border-radius: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
       margin: 8px 0;
     }
 
-    .question-item {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 16px;
-      margin-bottom: 12px;
-      border-right: 4px solid #1a5f7a;
-    }
-
+    .question-item,
     .quiz-question {
-      background: #f8f9fa;
+      background: var(--bg);
       padding: 16px;
       border-radius: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
+      border-right: 4px solid var(--primary);
     }
 
     .option-label {
       display: inline-block;
-      background: #e9ecef;
+      background: var(--card);
       padding: 8px 16px;
       border-radius: 30px;
       margin: 5px;
       cursor: pointer;
+      border: 1px solid var(--border);
     }
 
     .option-label.selected {
-      background: #1a5f7a;
+      background: var(--primary);
       color: white;
     }
 
     .result-box {
-      background: #1a5f7a;
+      background: var(--primary);
       color: white;
       padding: 20px;
       border-radius: 20px;
       text-align: center;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      padding: 15px;
-      color: gray;
-    }
-
-    .success {
-      color: green;
-      font-weight: bold;
-    }
-
-    .error {
-      color: red;
-      font-weight: bold;
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
     }
 
     #secretAccess {
       position: fixed;
       bottom: 10px;
       left: 10px;
-      background: white;
+      background: var(--card);
       padding: 5px 12px;
       border-radius: 30px;
       cursor: pointer;
       font-size: 12px;
+      z-index: 999;
+    }
+
+    .share-box {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 16px;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: gray;
     }
 
     .options-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin: 10px 0;
     }
 
     .options-row input {
       flex: 1;
-      min-width: 80px;
-    }
-
-    hr {
-      margin: 15px 0;
     }
   </style>
 </head>
@@ -160,59 +184,52 @@
 <body>
   <div class="container">
     <div class="card" style="text-align:center;">
-      <h2>📚 منصة الاختبارات الذكية</h2>
+      <h2>📚 نظام الاختبارات - مشاركة عبر ملف</h2>
       <p>تصميم: عبدالرحمن صبحي | تطوير: علي ماجد</p>
     </div>
 
-    <!-- ========== واجهة الطالب ========== -->
+    <!-- واجهة الطالب -->
     <div id="studentView">
       <div class="card" id="entryPanel">
-        <h3>🎓 مرحباً بك في الاختبار</h3>
+        <h3>🎓 الطالب: ابدأ الامتحان</h3>
+        <div style="background:#e8f0fe; padding:12px; border-radius:16px; margin:10px 0;">
+          <p>📌 إذا لديك ملف الاختبار من المعلم، ارفعه أولاً:</p>
+          <input type="file" id="examFileInput" accept=".json">
+          <button class="btn btn-primary" id="loadExamFileBtn" style="margin-top:5px;">📂 تحميل الاختبار من الملف</button>
+          <div id="fileLoadMsg" style="margin-top:8px;"></div>
+        </div>
+        <hr>
         <input type="text" id="studentName" placeholder="أدخل اسمك كاملاً">
-        <button class="btn btn-primary" id="startExamBtn">🚀 ابدأ الاختبار</button>
+        <button class="btn btn-success" id="startExamBtn">🚀 ابدأ الاختبار</button>
+        <div id="studentMsg" style="margin-top:10px; color:#c62828;"></div>
       </div>
       <div id="examArea" class="hidden">
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; justify-content:space-between;">
             <h3>📝 مرحباً <span id="studentNameDisplay"></span></h3>
-            <button class="btn btn-success" id="submitBtn">✅ تسليم الإجابات</button>
+            <button class="btn btn-success" id="submitBtn">✅ تسليم</button>
           </div>
           <div id="questionsContainer"></div>
           <div id="resultArea" class="hidden"></div>
-          <button class="btn" id="backBtn" style="background:gray; color:white; margin-top:15px;">🔙 خروج</button>
+          <button class="btn" id="backBtn" style="background:gray;">🔙 خروج</button>
         </div>
       </div>
     </div>
 
-    <!-- ========== واجهة المعلم ========== -->
+    <!-- لوحة المعلم -->
     <div id="adminView" class="hidden">
       <div class="card">
         <h3>👨‍🏫 لوحة تحكم المعلم</h3>
-
-        <!-- إعدادات -->
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-          <div style="flex:2;">
-            <label>✏️ اسم الامتحان:</label>
-            <input type="text" id="examNameInput" placeholder="اسم الامتحان" style="margin:0;">
-          </div>
-          <div style="flex:1;">
-            <button class="btn btn-warning" id="updateExamNameBtn" style="margin-top:27px;">تحديث</button>
-          </div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:2;"><label>✏️ اسم الامتحان:</label><input type="text" id="examNameInput"></div>
+          <div style="flex:1;"><button class="btn btn-warning" id="updateExamNameBtn">تحديث</button></div>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
-          <div style="flex:2;">
-            <label>🔐 كلمة مرور جديدة:</label>
-            <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة" style="margin:0;">
-          </div>
-          <div style="flex:1;">
-            <button class="btn btn-warning" id="changePassBtn" style="margin-top:27px;">تغيير</button>
-          </div>
+        <div style="display:flex; gap:10px;">
+          <div style="flex:2;"><label>🔐 كلمة مرور جديدة:</label><input type="password" id="newPassword"></div>
+          <div style="flex:1;"><button class="btn btn-warning" id="changePassBtn">تغيير</button></div>
         </div>
-
         <hr>
-
-        <!-- إضافة سؤال جديد يدوياً -->
-        <h4>➕ إضافة سؤال جديد (سهل وبسيط)</h4>
+        <h4>➕ إضافة سؤال</h4>
         <input type="text" id="newQText" placeholder="نص السؤال">
         <div class="options-row">
           <input type="text" id="optA" placeholder="أ. الخيار الأول">
@@ -220,69 +237,58 @@
           <input type="text" id="optC" placeholder="ج. الخيار الثالث">
           <input type="text" id="optD" placeholder="د. الخيار الرابع">
         </div>
-        <div style="display:flex; gap:10px;">
-          <select id="correctSelect" style="flex:1; padding:10px; border-radius:12px;">
-            <option value="">-- اختر الإجابة الصحيحة --</option>
-            <option value="أ">أ</option>
-            <option value="ب">ب</option>
-            <option value="ج">ج</option>
-            <option value="د">د</option>
-          </select>
-          <button class="btn btn-primary" id="addQuestionBtn">➕ إضافة السؤال</button>
-        </div>
+        <select id="correctSelect">
+          <option value="">-- الإجابة الصحيحة --</option>
+          <option value="أ">أ</option>
+          <option value="ب">ب</option>
+          <option value="ج">ج</option>
+          <option value="د">د</option>
+        </select>
+        <button class="btn btn-primary" id="addQuestionBtn" style="margin-top:10px;">➕ إضافة السؤال</button>
+        <button class="btn btn-warning" id="loadSampleBtn" style="margin-top:10px;">📖 أسئلة تجريبية</button>
 
-        <hr>
-
-        <!-- تحميل أسئلة جاهزة (تعمل 100%) -->
-        <h4>📋 تحميل أسئلة جاهزة (اضغط الزر فقط)</h4>
-        <button class="btn btn-warning" id="loadSampleBtn" style="margin-bottom:10px;">📖 تحميل أسئلة تجريبية (يعمل فوراً)</button>
-
-        <!-- قائمة الأسئلة الحالية -->
         <div id="questionsListAdmin" style="margin-top:20px;"></div>
 
-        <!-- زر النشر -->
-        <button class="btn btn-success" id="publishBtn" style="margin-top:15px; width:100%;">🚀 نشر الاختبار للطلاب</button>
-        <button class="btn" id="adminLogoutBtn" style="margin-top:10px; width:100%; background:gray; color:white;">تسجيل خروج</button>
-
+        <!-- أزرار مشاركة الاختبار -->
+        <div class="share-box">
+          <button class="btn btn-success" id="downloadExamBtn" style="width:100%;">💾 تحميل ملف الاختبار (أرسله للطلاب)</button>
+          <p style="font-size:12px; margin-top:8px;">سيتم تحميل ملف .json يحتوي على الأسئلة. أرسله للطلاب عبر واتساب أو أي وسيلة، ثم الطالب يرفعه في الصفحة ويبدأ الامتحان.</p>
+        </div>
+        <button class="btn btn-secondary" id="adminLogoutBtn" style="margin-top:15px; width:100%;">تسجيل خروج</button>
         <hr>
-
-        <!-- قائمة الطلاب -->
         <h4>📊 قائمة الطلاب الذين امتحنوا (<span id="studentsCount">0</span>)</h4>
         <div id="studentsList"></div>
       </div>
     </div>
 
     <div id="secretAccess">🔑 دخول المعلم</div>
-    <footer>© جميع الحقوق محفوظة | نظام اختيار من متعدد - تصحيح آلي</footer>
+    <div class="theme-toggle" id="themeToggle">🌙</div>
+    <footer>© جميع الحقوق محفوظة | مشاركة الاختبار بملف - أي طالب يرفع الملف ويمتحن</footer>
   </div>
 
   <script>
-    // ========== البيانات ==========
-    let questions = []; // { text, options:[{letter,text}], correctLetter }
-    let studentsRecords = [];
+    // -------------------- البيانات --------------------
+    let questions = []; // الأسئلة الحالية (في ذاكرة المعلم)
+    let currentStudentAnswers = [];
+    let currentStudentName = "";
     let adminPassword = "123456";
     let examName = "🏆 اختبار التحدي";
-    let examPublished = false;
-    let studentAnswers = [];
-    let currentStudentName = "";
-    // تحميل من localStorage
-    function loadData() {
+    let studentsRecords = [];
+    // تحميل بيانات المعلم المحفوظة (كلمة المرور، اسم الامتحان، سجل الطلاب)
+    function loadLocalData() {
       try {
-        if (localStorage.getItem("myQuestions")) questions = JSON.parse(localStorage.getItem("myQuestions"));
-        if (localStorage.getItem("myStudents")) studentsRecords = JSON.parse(localStorage.getItem("myStudents"));
-        if (localStorage.getItem("myExamName")) examName = localStorage.getItem("myExamName");
         if (localStorage.getItem("myAdminPass")) adminPassword = localStorage.getItem("myAdminPass");
+        if (localStorage.getItem("myExamName")) examName = localStorage.getItem("myExamName");
+        if (localStorage.getItem("myStudents")) studentsRecords = JSON.parse(localStorage.getItem("myStudents"));
       } catch (e) {}
-      if (!Array.isArray(questions)) questions = [];
       if (!Array.isArray(studentsRecords)) studentsRecords = [];
       updateExamDisplay();
     }
 
-    function saveData() {
-      localStorage.setItem("myQuestions", JSON.stringify(questions));
-      localStorage.setItem("myStudents", JSON.stringify(studentsRecords));
-      localStorage.setItem("myExamName", examName);
+    function saveLocalData() {
       localStorage.setItem("myAdminPass", adminPassword);
+      localStorage.setItem("myExamName", examName);
+      localStorage.setItem("myStudents", JSON.stringify(studentsRecords));
     }
 
     function updateExamDisplay() {
@@ -293,7 +299,7 @@
     function renderAdminQuestions() {
       let container = document.getElementById("questionsListAdmin");
       if (!questions.length) {
-        container.innerHTML = "<p style='color:gray;'>⚠️ لا توجد أسئلة. أضف سؤالاً أو اضغط 'تحميل أسئلة تجريبية'</p>";
+        container.innerHTML = "<p>⚠️ لا توجد أسئلة. أضف سؤالاً أو استخدم 'أسئلة تجريبية'</p>";
         return;
       }
       let html = "<h4>📋 الأسئلة الحالية:</h4>";
@@ -302,17 +308,16 @@
                         <strong>${idx+1}. ${q.text}</strong><br>
                         الخيارات: ${q.options.map(o => `${o.letter}. ${o.text}`).join(" | ")}<br>
                         ✅ الإجابة الصحيحة: ${q.correctLetter}
-                        <button onclick="deleteQuestion(${idx})" style="background:#c62828; color:white; border:none; border-radius:20px; padding:4px 12px; margin-top:8px; cursor:pointer;">🗑 حذف</button>
+                        <button onclick="deleteQuestion(${idx})" class="btn btn-danger" style="padding:4px 12px; margin-top:8px;">🗑 حذف</button>
                     </div>`;
       });
       container.innerHTML = html;
     }
     window.deleteQuestion = function(idx) {
       questions.splice(idx, 1);
-      saveData();
       renderAdminQuestions();
     };
-    // إضافة سؤال جديد
+    // إضافة سؤال
     function addNewQuestion() {
       let text = document.getElementById("newQText").value.trim();
       let optA = document.getElementById("optA").value.trim();
@@ -320,16 +325,8 @@
       let optC = document.getElementById("optC").value.trim();
       let optD = document.getElementById("optD").value.trim();
       let correct = document.getElementById("correctSelect").value;
-      if (!text) {
-        alert("اكتب نص السؤال");
-        return;
-      }
-      if (!optA || !optB || !optC || !optD) {
-        alert("اكتب جميع الخيارات الأربعة");
-        return;
-      }
-      if (!correct) {
-        alert("اختر الإجابة الصحيحة");
+      if (!text || !optA || !optB || !optC || !optD || !correct) {
+        alert("املأ السؤال والخيارات الأربعة والإجابة الصحيحة");
         return;
       }
       questions.push({
@@ -353,130 +350,134 @@
         ],
         correctLetter: correct
       });
-      saveData();
       renderAdminQuestions();
-      // مسح الحقول
       document.getElementById("newQText").value = "";
       document.getElementById("optA").value = "";
       document.getElementById("optB").value = "";
       document.getElementById("optC").value = "";
       document.getElementById("optD").value = "";
       document.getElementById("correctSelect").value = "";
-      alert("✅ تم إضافة السؤال بنجاح!");
+      alert("✅ تم إضافة السؤال");
     }
-    // تحميل أسئلة تجريبية (تعمل فوراً)
-    function loadSampleQuestions() {
+
+    function loadSample() {
       questions = [{
           text: "ما عاصمة مصر؟",
           options: [{
-              letter: "أ",
-              text: "القاهرة"
-            },
-            {
-              letter: "ب",
-              text: "الإسكندرية"
-            },
-            {
-              letter: "ج",
-              text: "أسوان"
-            },
-            {
-              letter: "د",
-              text: "الجيزة"
-            }
-          ],
+            letter: "أ",
+            text: "القاهرة"
+          }, {
+            letter: "ب",
+            text: "الإسكندرية"
+          }, {
+            letter: "ج",
+            text: "أسوان"
+          }, {
+            letter: "د",
+            text: "الجيزة"
+          }],
           correctLetter: "أ"
         },
         {
           text: "2 + 2 يساوي؟",
           options: [{
-              letter: "أ",
-              text: "3"
-            },
-            {
-              letter: "ب",
-              text: "4"
-            },
-            {
-              letter: "ج",
-              text: "5"
-            },
-            {
-              letter: "د",
-              text: "6"
-            }
-          ],
+            letter: "أ",
+            text: "3"
+          }, {
+            letter: "ب",
+            text: "4"
+          }, {
+            letter: "ج",
+            text: "5"
+          }, {
+            letter: "د",
+            text: "6"
+          }],
           correctLetter: "ب"
         },
         {
           text: "ما لون التفاح الأحمر؟",
           options: [{
-              letter: "أ",
-              text: "أخضر"
-            },
-            {
-              letter: "ب",
-              text: "أصفر"
-            },
-            {
-              letter: "ج",
-              text: "أحمر"
-            },
-            {
-              letter: "د",
-              text: "برتقالي"
-            }
-          ],
+            letter: "أ",
+            text: "أخضر"
+          }, {
+            letter: "ب",
+            text: "أصفر"
+          }, {
+            letter: "ج",
+            text: "أحمر"
+          }, {
+            letter: "د",
+            text: "برتقالي"
+          }],
           correctLetter: "ج"
         }
       ];
-      saveData();
       renderAdminQuestions();
-      alert("✅ تم تحميل 3 أسئلة تجريبية بنجاح! اضغط 'نشر الاختبار' ثم ابدأ كطالب.");
+      alert("تم تحميل 3 أسئلة تجريبية");
     }
-    // نشر الاختبار
-    function publishExam() {
+    // تحميل ملف الاختبار (للمعلم)
+    function downloadExamFile() {
       if (questions.length === 0) {
-        alert("❌ لا توجد أسئلة للنشر. أضف أسئلة أولاً.");
+        alert("❌ لا توجد أسئلة لتصديرها. أضف أسئلة أولاً.");
         return;
       }
-      examPublished = true;
-      saveData();
-      alert("🎉 تم نشر الاختبار بنجاح! الطلاب يمكنهم الدخول الآن.");
-    }
-    // عرض قائمة الطلاب
-    function renderStudentsList() {
-      let container = document.getElementById("studentsList");
-      let countSpan = document.getElementById("studentsCount");
-      if (!studentsRecords.length) {
-        container.innerHTML = "<div>لا يوجد طلاب امتحنوا بعد</div>";
-        countSpan.innerText = "0";
-        return;
-      }
-      countSpan.innerText = studentsRecords.length;
-      let html = "";
-      studentsRecords.forEach((s, idx) => {
-        html += `<div style="background:#f8f9fa; padding:10px; border-radius:12px; margin-bottom:8px;">
-                        <strong>${idx+1}. ${s.name}</strong> | 📅 ${s.date} | 🎯 ${s.score}/${s.total} | 📊 ${s.percent.toFixed(1)}%
-                        <button onclick="deleteStudent(${idx})" style="background:#c62828; color:white; border:none; border-radius:20px; padding:2px 12px; margin-right:10px; cursor:pointer;">حذف</button>
-                    </div>`;
+      let examData = {
+        name: examName,
+        questions: questions,
+        date: new Date().toISOString()
+      };
+      let jsonStr = JSON.stringify(examData, null, 2);
+      let blob = new Blob([jsonStr], {
+        type: "application/json"
       });
-      container.innerHTML = html;
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = "exam_" + examName.replace(/[^a-z0-9]/gi, '_') + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert("✅ تم تحميل ملف الاختبار. أرسله إلى الطلاب.");
     }
-    window.deleteStudent = function(idx) {
-      studentsRecords.splice(idx, 1);
-      saveData();
-      renderStudentsList();
-    };
+    // الطالب: رفع ملف الاختبار
+    let studentLoadedQuestions = null;
+    document.getElementById("loadExamFileBtn")?.addEventListener("click", () => {
+      let fileInput = document.getElementById("examFileInput");
+      if (!fileInput.files.length) {
+        document.getElementById("fileLoadMsg").innerHTML = "<span style='color:red'>❌ اختر ملف الاختبار أولاً</span>";
+        return;
+      }
+      let file = fileInput.files[0];
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          let examData = JSON.parse(e.target.result);
+          if (examData.questions && examData.questions.length) {
+            studentLoadedQuestions = examData.questions;
+            examName = examData.name || examName;
+            updateExamDisplay();
+            document.getElementById("fileLoadMsg").innerHTML = "<span style='color:green'>✅ تم تحميل الاختبار بنجاح! يمكنك الآن بدء الامتحان.</span>";
+          } else {
+            document.getElementById("fileLoadMsg").innerHTML = "<span style='color:red'>❌ ملف غير صالح: لا يحتوي على أسئلة.</span>";
+          }
+        } catch (err) {
+          document.getElementById("fileLoadMsg").innerHTML = "<span style='color:red'>❌ خطأ في قراءة الملف: " + err.message + "</span>";
+        }
+      };
+      reader.readAsText(file);
+    });
     // ========== واجهة الطالب ==========
     function renderStudentQuestions() {
       let container = document.getElementById("questionsContainer");
-      if (!questions.length) {
-        container.innerHTML = "<div class='card'>⚠️ الاختبار غير متوفر حالياً</div>";
+      let currentQuestions = studentLoadedQuestions;
+      if (!currentQuestions || !currentQuestions.length) {
+        container.innerHTML = "<div class='card'>⚠️ لم يتم رفع ملف الاختبار بعد. يرجى رفع الملف أولاً.</div>";
         return;
       }
       let html = "";
-      questions.forEach((q, idx) => {
+      currentQuestions.forEach((q, idx) => {
         html += `<div class="quiz-question">
                         <div style="font-weight:bold; margin-bottom:10px;">${idx+1}. ${q.text}</div>
                         <div id="opt-${idx}">`;
@@ -488,60 +489,65 @@
         html += `</div></div>`;
       });
       container.innerHTML = html;
-      studentAnswers = new Array(questions.length).fill("");
-      for (let i = 0; i < questions.length; i++) {
+      currentStudentAnswers.fill("");
+      for (let i = 0; i < currentQuestions.length; i++) {
         let opts = document.querySelectorAll(`#opt-${i} .option-label`);
         opts.forEach(opt => {
           opt.addEventListener("click", function() {
             opts.forEach(o => o.classList.remove("selected"));
             this.classList.add("selected");
-            studentAnswers[i] = this.getAttribute("data-val");
+            currentStudentAnswers[i] = this.getAttribute("data-val");
           });
         });
       }
     }
 
     function submitStudentExam() {
-      for (let i = 0; i < questions.length; i++) {
-        if (!studentAnswers[i]) {
-          alert(`❌ الرجاء الإجابة على السؤال رقم ${i+1}`);
+      let currentQuestions = studentLoadedQuestions;
+      if (!currentQuestions || !currentQuestions.length) {
+        alert("لا يوجد اختبار محمّل");
+        return;
+      }
+      for (let i = 0; i < currentQuestions.length; i++) {
+        if (!currentStudentAnswers[i]) {
+          alert(`❌ أجب على السؤال ${i+1} أولاً`);
           return;
         }
       }
       let correctCount = 0;
       let details = "";
-      for (let i = 0; i < questions.length; i++) {
-        let isCorrect = (studentAnswers[i] === questions[i].correctLetter);
+      for (let i = 0; i < currentQuestions.length; i++) {
+        let isCorrect = (currentStudentAnswers[i] === currentQuestions[i].correctLetter);
         if (isCorrect) correctCount++;
-        let userOpt = questions[i].options.find(o => o.letter === studentAnswers[i]);
-        let correctOpt = questions[i].options.find(o => o.letter === questions[i].correctLetter);
+        let userOpt = currentQuestions[i].options.find(o => o.letter === currentStudentAnswers[i]);
+        let correctOpt = currentQuestions[i].options.find(o => o.letter === currentQuestions[i].correctLetter);
         details += `<div class="quiz-question" style="margin-top:10px;">
-                            <strong>${i+1}. ${questions[i].text}</strong><br>
-                            ${isCorrect ? '✅' : '❌'} إجابتك: ${userOpt ? userOpt.letter + ". " + userOpt.text : ""}<br>
+                            <strong>${i+1}. ${currentQuestions[i].text}</strong><br>
+                            ${isCorrect ? '✅' : '❌'} إجابتك: ${userOpt ? userOpt.letter+". "+userOpt.text : ""}<br>
                             📌 الإجابة الصحيحة: ${correctOpt.letter}. ${correctOpt.text}
                         </div>`;
       }
-      let percent = (correctCount / questions.length) * 100;
-      // حفظ سجل الطالب
+      let percent = (correctCount / currentQuestions.length) * 100;
       let now = new Date();
       let dateStr = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
+      // تسجيل في ذاكرة المعلم (محتوى localStorage للمعلم فقط، لكن الطالب لا يضيف هنا، بل سنضيف تخزين محلي للطلاب؟ ولكن الأفضل أن المعلم هو من يجمع النتائج. سنضيف هنا تسجيل في localStorage للطالب، ولكن المعلم يرى النتائج فقط إذا فتح على جهازه. لنبقي بسيط: سيتم حفظ النتائج في المتصفح الحالي، والمعلم حين يدخل يراها.
       studentsRecords.push({
         name: currentStudentName,
         date: dateStr,
         score: correctCount,
-        total: questions.length,
+        total: currentQuestions.length,
         percent: percent
       });
-      saveData();
+      saveLocalData();
       renderStudentsList();
       let resultDiv = document.getElementById("resultArea");
       resultDiv.innerHTML = `
             <div class="result-box">
-                <div style="font-size:28px;">🎯 ${correctCount} / ${questions.length}</div>
+                <div style="font-size:28px;">🎯 ${correctCount} / ${currentQuestions.length}</div>
                 <div>النسبة: ${percent.toFixed(1)}%</div>
-                <div>✅ تصحيح آلي</div>
+                <div>✅ تم التصحيح</div>
             </div>
-            <h4>📖 تفاصيل الإجابات:</h4>
+            <h4>📖 التفاصيل:</h4>
             ${details}
             <button id="retryBtn" class="btn btn-primary" style="margin-top:15px;">🔄 محاولة جديدة</button>
         `;
@@ -552,7 +558,7 @@
         resultDiv.classList.add("hidden");
         document.getElementById("submitBtn").disabled = false;
         renderStudentQuestions();
-        studentAnswers.fill("");
+        currentStudentAnswers.fill("");
       });
     }
 
@@ -562,14 +568,8 @@
         alert("الرجاء إدخال اسمك");
         return;
       }
-      // تحميل أحدث الأسئلة
-      if (localStorage.getItem("myQuestions")) {
-        try {
-          questions = JSON.parse(localStorage.getItem("myQuestions"));
-        } catch (e) {}
-      }
-      if (questions.length === 0) {
-        alert("⚠️ لم يتم نشر أي اختبار بعد");
+      if (!studentLoadedQuestions || !studentLoadedQuestions.length) {
+        document.getElementById("studentMsg").innerHTML = "⚠️ يرجى رفع ملف الاختبار أولاً (من المعلم) ثم الضغط على 'تحميل الاختبار من الملف'.";
         return;
       }
       currentStudentName = name;
@@ -579,11 +579,37 @@
       renderStudentQuestions();
       document.getElementById("resultArea").classList.add("hidden");
       document.getElementById("submitBtn").disabled = false;
+      currentStudentAnswers.fill("");
+      document.getElementById("studentMsg").innerHTML = "";
     }
-    // ========== ربط الأزرار ==========
+    // عرض قائمة الطلاب للمعلم
+    function renderStudentsList() {
+      let container = document.getElementById("studentsList");
+      let countSpan = document.getElementById("studentsCount");
+      if (!studentsRecords.length) {
+        container.innerHTML = "<div>لا يوجد طلاب امتحنوا بعد</div>";
+        countSpan.innerText = "0";
+        return;
+      }
+      countSpan.innerText = studentsRecords.length;
+      let html = "";
+      studentsRecords.forEach((s, idx) => {
+        html += `<div style="background:var(--bg); padding:10px; border-radius:12px; margin-bottom:8px;">
+                        <strong>${idx+1}. ${s.name}</strong> | 📅 ${s.date} | 🎯 ${s.score}/${s.total} | 📊 ${s.percent.toFixed(1)}%
+                        <button onclick="deleteStudent(${idx})" class="btn btn-danger" style="padding:2px 12px;">حذف</button>
+                    </div>`;
+      });
+      container.innerHTML = html;
+    }
+    window.deleteStudent = function(idx) {
+      studentsRecords.splice(idx, 1);
+      saveLocalData();
+      renderStudentsList();
+    };
+    // ربط الأزرار
     document.getElementById("addQuestionBtn")?.addEventListener("click", addNewQuestion);
-    document.getElementById("loadSampleBtn")?.addEventListener("click", loadSampleQuestions);
-    document.getElementById("publishBtn")?.addEventListener("click", publishExam);
+    document.getElementById("loadSampleBtn")?.addEventListener("click", loadSample);
+    document.getElementById("downloadExamBtn")?.addEventListener("click", downloadExamFile);
     document.getElementById("startExamBtn")?.addEventListener("click", startStudent);
     document.getElementById("submitBtn")?.addEventListener("click", submitStudentExam);
     document.getElementById("backBtn")?.addEventListener("click", () => {
@@ -595,29 +621,25 @@
       document.getElementById("adminView").classList.add("hidden");
       document.getElementById("studentView").classList.remove("hidden");
     });
-    // تغيير كلمة المرور
     document.getElementById("changePassBtn")?.addEventListener("click", () => {
       let newPass = document.getElementById("newPassword").value.trim();
       if (newPass.length < 3) {
-        alert("كلمة المرور يجب أن تكون 3 أحرف على الأقل");
+        alert("كلمة المرور 3 أحرف على الأقل");
         return;
       }
       adminPassword = newPass;
-      saveData();
-      alert("✅ تم تغيير كلمة المرور بنجاح!");
-      document.getElementById("newPassword").value = "";
+      saveLocalData();
+      alert("✅ تم تغيير كلمة المرور");
     });
-    // تغيير اسم الامتحان
     document.getElementById("updateExamNameBtn")?.addEventListener("click", () => {
       let newName = document.getElementById("examNameInput").value.trim();
       if (newName) {
         examName = newName;
-        saveData();
         updateExamDisplay();
+        saveLocalData();
         alert("✅ تم تحديث اسم الامتحان");
       }
     });
-    // دخول المعلم
     document.getElementById("secretAccess")?.addEventListener("click", () => {
       let pwd = prompt("أدخل كلمة مرور الإدارة:");
       if (pwd === adminPassword) {
@@ -627,13 +649,27 @@
         renderStudentsList();
         document.getElementById("examNameInput").value = examName;
       } else {
-        alert("❌ كلمة المرور غير صحيحة!");
+        alert("كلمة المرور غير صحيحة");
       }
     });
-    // بدء التشغيل
-    loadData();
-    if (questions.length) renderAdminQuestions();
+    // الوضع الليلي
+    const themeToggle = document.getElementById("themeToggle");
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      themeToggle.innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    });
+    if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+    themeToggle.innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    loadLocalData();
+    if (localStorage.getItem("myQuestions")) {
+      try {
+        questions = JSON.parse(localStorage.getItem("myQuestions"));
+        renderAdminQuestions();
+      } catch (e) {}
+    }
     renderStudentsList();
+    updateExamDisplay();
   </script>
 </body>
 
